@@ -17,3 +17,10 @@ Author: wangzhizhou
 email: 824219521@qq.com
 
 phone: (+86)15102272032
+
+
+# Publish Pod on OrzGeeker
+
+```bash
+
+```
