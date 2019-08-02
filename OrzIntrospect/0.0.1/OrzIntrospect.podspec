@@ -12,7 +12,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '9.0'
   s.source       = { :git => "https://github.com/OrzGeeker/OrzIntrospect.git", :tag => "#{s.version}" }
   s.source_files  = "OrzIntrospect/*.{h,m}"
-  s.public_header_files = "OrzIntrospect/*.h"
+  s.public_header_files = "OrzIntrospect/OrzIntrospect.h"
   s.frameworks = "QuartzCore", "UIKit"
   s.requires_arc = true
 end
+
