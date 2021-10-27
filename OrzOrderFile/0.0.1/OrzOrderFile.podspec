@@ -117,7 +117,7 @@ Pod::Spec.new do |spec|
   #
   
   # spec.framework  = "SomeFramework"
-  # spec.frameworks = "SomeFramework", "AnotherFramework"
+  spec.frameworks = "Foundation", "UIKit"
   
   # spec.library   = "iconv"
   # spec.libraries = "iconv", "xml2"
@@ -133,7 +133,28 @@ Pod::Spec.new do |spec|
   
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
+  app_order_file_path = '${SRCROOT}/' + spec.name
+  spec.user_target_xcconfig = {
+    'CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER' => 'NO',
+    'LD_GENERATE_MAP_FILE' => 'YES',
+#    'ORDER_FILE' => app_order_file_path
+  }
   
-  # spec.pod_target_xcconfig = { 'OTHER_CFLAGS' => '-fsanitize-coverage=func,trace-pc-guard'}
-  spec.user_target_xcconfig = { 'CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER' => 'NO' }
+  # 添加编译前脚本
+  script = <<-EOF
+  echo "🚕🚕🚕🚕🚕🚕🚕🚕🚕🚕"
+  cd ${SRCROOT} && cd ..
+  echo $PWD
+  ORDER_FILE="#{spec.name}"
+  if [ ! -f $ORDER_FILE ]; then
+    touch $ORDER_FILE
+  fi
+  echo "🚕🚕🚕🚕🚕🚕🚕🚕🚕🚕"
+  EOF
+  
+  spec.script_phase = {
+    :name => 'Create Empty Order File If Not Exist',
+    :script => script,
+    :execution_position => :before_compile
+  }
 end
